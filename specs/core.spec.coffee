@@ -1,6 +1,6 @@
 h = require('./test-helper')
 
-_ = h.requireSrc()
+F = h.requireSrc()
 
 describe('Core functions', ->
     it('Tells good from bad', () ->
@@ -8,11 +8,11 @@ describe('Core functions', ->
         badStuff = [null, undefined, '   ']
 
         for g in goodStuff
-            _.isGood(g).should.be.true
-            _.isBad(g).should.be.false
+            F.isGood(g).should.be.true
+            F.isBad(g).should.be.false
 
         for b in badStuff
-            _.isBad(b).should.be.true
-            _.isGood(b).should.be.false
+            F.isBad(b).should.be.true
+            F.isGood(b).should.be.false
     )
 )
