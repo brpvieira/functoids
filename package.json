@@ -1,0 +1,14 @@
+{
+    "name": "functoids",
+    "description": "Smorgasbord of small JS functions",
+    "version": "0.0.1",
+    "private": false,
+    "dependencies": {
+        "underscore": "",
+        "coffee-script": ""
+    },
+    "devDependencies": {
+        "mocha": "",
+        "should": ""
+    }
+}
