@@ -9,6 +9,8 @@ self = {
 
     popIfObject: (a) -> if _.isArray(a) && _.isObject(a[a.length - 1]) then a.pop() else null
 
+    unwrapSingle: (a) -> if _.isArray(a) && a.length == 1 then a[0] else a
+
     # lastIfFunction and unwrapArgs offer argument processing while trying to minimize creation of
     # arrays. This avoids expensive heap allocations in functions that are called very frequently.
     # This is more friendly to the VM than indiscriminately calling slice() on arguments, using
