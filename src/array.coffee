@@ -9,6 +9,8 @@ self = {
 
     popIfObject: (a) -> if _.isArray(a) && _.isObject(a[a.length - 1]) then a.pop() else null
 
+    popIfNull: (a) -> a.pop() if _.isArray(a) && a[a.length - 1] == null
+
     unwrapSingle: (a) -> if _.isArray(a) && a.length == 1 then a[0] else a
 
     # lastIfFunction and unwrapArgs offer argument processing while trying to minimize creation of

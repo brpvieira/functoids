@@ -6,7 +6,7 @@ F = h.requireSrc()
 
 describe 'Array functions', () ->
     describe 'isOnlyElement', () ->
-        it 'Detects whether an object is the single element in an array', () ->
+        it 'detects whether an object is the single element in an array', () ->
             F.isOnlyElement([10], 10).should.be.true
             F.isOnlyElement(null, 10).should.be.false
             F.isOnlyElement([10, 20], 10).should.be.false
@@ -42,8 +42,24 @@ describe 'Array functions', () ->
             F.unwrapSingle({foo: 'bar'}).should.eql({foo: 'bar'})
 
 
+    describe 'popIfNull', () ->
+        it 'pops an array if the last element is null', () ->
+            tests = [
+                [ [null], [] ]
+                [ [1, 2, null], [1, 2] ]
+                [ [1, 2, 3], [1, 2, 3] ]
+                [ [], [] ]
+                [ 'bamboo', 'bamboo' ]
+                [ 12, 12 ]
+            ]
+
+            for t in tests
+                arg = t[0]
+                F.popIfNull(arg)
+                arg.should.eql(t[1])
+
     describe 'lastIfFunction', () ->
-        it 'Pops an array if the last element is a function', () ->
+        it 'pops an array if the last element is a function', () ->
             f = () -> 'ayeee'
             F.lastIfFunction([10, 20, f]).should.eql(f)
             F.lastIfFunction([f]).should.eql(f)
