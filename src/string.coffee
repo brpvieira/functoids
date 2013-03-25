@@ -67,7 +67,7 @@ self = {
     # http://stackoverflow.com/questions/1877475/repeat-character-n-times
     repeat: (str, n) -> Array(n+1).join(str)
 
-    leftPad: (s, length, pad = '0') ->
+    leftPad: (s, length, pad = ' ') ->
         s = s.toString()
         return s if s.length >= length
         return self.repeat(pad, length - s.length) + s
