@@ -62,6 +62,13 @@ self = {
 
             return if toUpperInitial then self.toUpperInitial(word) else word
       )
+
+    repeat: (str, n) -> Array(n+1).join(str)
+
+    leftPad: (s, length, pad = '0') ->
+        s = s.toString()
+        return s if s.length >= length
+        return self.repeat(pad, length - s.length) + s
 }
 
 i = require('./inflector')
