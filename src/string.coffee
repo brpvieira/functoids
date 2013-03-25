@@ -63,6 +63,8 @@ self = {
             return if toUpperInitial then self.toUpperInitial(word) else word
       )
 
+    # Thanks to Jason Orendorff
+    # http://stackoverflow.com/questions/1877475/repeat-character-n-times
     repeat: (str, n) -> Array(n+1).join(str)
 
     leftPad: (s, length, pad = '0') ->
