@@ -86,14 +86,14 @@ describe 'String helper', ->
         F.repeat('baz', 3).should.eql('bazbazbaz')
 
     it 'left pads strings', ->
-        F.leftPad(3, 2, 0).should.eql('03')
-        F.leftPad(3, 6, 0).should.eql('000003')
-        F.leftPad(189, 6, 0).should.eql('000189')
+        F.padLeft(3, 2, 0).should.eql('03')
+        F.padLeft(3, 6, 0).should.eql('000003')
+        F.padLeft(189, 6, 0).should.eql('000189')
 
-        F.leftPad(342, 5, ' ').should.eql('  342')
-        F.leftPad('Banzai', 10, '_').should.eql('____Banzai')
+        F.padLeft(342, 5, ' ').should.eql('  342')
+        F.padLeft('Banzai', 10, '_').should.eql('____Banzai')
 
-        F.leftPad(189, 1, 0).should.eql('189')
-        F.leftPad(189, 2, 0).should.eql('189')
-        F.leftPad(189, 3, 0).should.eql('189')
-        F.leftPad(189, 4, 0).should.eql('0189')
+        F.padLeft(189, 1, 0).should.eql('189')
+        F.padLeft(189, 2, 0).should.eql('189')
+        F.padLeft(189, 3, 0).should.eql('189')
+        F.padLeft(189, 4, 0).should.eql('0189')

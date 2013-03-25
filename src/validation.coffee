@@ -39,6 +39,11 @@ self = {
         return true if _.isNumber(n)
         argumentError("be a number", argName, customMsg)
 
+    # See I've already waited too long
+    # And all my hope is gone
+    demandDate: (d, argName, customMsg) ->
+        return true if _.isDate(d)
+        argumentError("be a Date", argName, customMsg)
 }
 
 module.exports = self
