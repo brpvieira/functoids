@@ -49,6 +49,14 @@ validator = {
         return true if validator.isGoodObject(o)
         argumentError("be a defined, non-empty object", argName, customMsg)
 
+    demandHash: (o, argName, customMsg) ->
+        return true if validator.isHash(o)
+        argumentError("be a non-empty, non-array object (ie, a hash)")
+
+    demandFunction: (f, argName, customMsg) ->
+        return true if _.isFunction(f)
+        argumentError("be a function")
+
     demandString: (s, argName, customMsg) ->
         return true if _.isString(s)
         argumentError("be a string", argName, customMsg)
@@ -70,6 +78,8 @@ validator = {
     demandDate: (d, argName, customMsg) ->
         return true if _.isDate(d)
         argumentError("be a Date", argName, customMsg)
+
+    isHash: (h) -> _.isObject(h) && !_.isEmpty(h) && !_.isArray(h)
 
     isGoodObject: (a) -> _.isObject(a) && !_.isEmpty(a)
 
