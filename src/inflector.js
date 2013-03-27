@@ -15,7 +15,7 @@ http:en.wikipedia.org/wiki/Virus#Etymology
 */
 
 var _ = require('underscore'),
-    core = require('./core');
+    F = require('./');
 
 function multiArgs(args, fn) {
     var result = [], i;
@@ -84,7 +84,7 @@ function iterateOverObject(obj, fn) {
 
   function inflect(word, pluralize) {
     word = _.isString(word) ? word.toString() : '';
-    if(core.isBad(word) || isUncountable(word)) {
+    if(!F.isGoodString(word) || isUncountable(word)) {
       return word;
     } else {
       return runReplacements(word, pluralize ? plurals : singulars);

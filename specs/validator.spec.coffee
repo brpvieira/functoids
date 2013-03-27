@@ -5,7 +5,7 @@ assert = require('assert')
 F = h.requireSrc()
 
 
-funcs = ["demandObject", "demandArray", "demandNonEmptyArray", "demandString"]
+funcs = ["demandObject", "demandArray", "demandGoodArray", "demandString"]
 
 wrap = (name, msg) ->
     (o, willThrow) ->
@@ -18,12 +18,12 @@ wrap = (name, msg) ->
 demandNotNil = wrap('demandNotNil', 'Argument must not be null or undefined')
 demandObject = wrap('demandObject', 'Argument must be an object')
 demandArray = wrap('demandArray', 'Argument must be an array')
-demandNonEmptyArray = wrap('demandNonEmptyArray', 'Argument must be a non-empty array')
-demandNonEmptyObject = wrap('demandNonEmptyObject', 'Argument must be a non-empty object')
+demandGoodArray = wrap('demandGoodArray', 'Argument must be a non-empty array free of nil elements')
+demandGoodObject = wrap('demandGoodObject', 'Argument must be a defined, non-empty object')
 demandNumber = wrap('demandNumber', 'Argument must be a number')
 demandString = wrap('demandString', 'Argument must be a string')
 
-describe 'Validation', () ->
+describe 'Validator', () ->
     it 'demands not nil', () ->
         for arg in [null, undefined]
             demandNotNil(arg, true)
@@ -38,12 +38,12 @@ describe 'Validation', () ->
         for arg in [{}, {foo: 'bar'}, ["real clips", "real gats"]]
             demandObject(arg)
 
-    it 'demands non-empty objects', () ->
+    it 'demands good objects', () ->
         for arg in [null, 'bazinga', 6025, {}]
-            demandNonEmptyObject(arg, true)
+            demandGoodObject(arg, true)
 
         for arg in [{ foo: 'bar' }, ["it's hardcore real rap"]]
-            demandNonEmptyObject(arg)
+            demandGoodObject(arg)
 
     it 'demands arrays', () ->
         for arg in ['fooz', { sensei: 'benbarazan' }, 34]
@@ -52,12 +52,12 @@ describe 'Validation', () ->
         for arg in [[], [1, 2], ['foo', 'bar', 55]]
             demandArray(arg)
 
-    it 'demands non-empty arrays', () ->
-        for arg in ['fooz', { sensei: 'benbarazan' }, 34, []]
-            demandNonEmptyArray(arg, true)
+    it 'demands good arrays', () ->
+        for arg in ['fooz', { sensei: 'benbarazan' }, 34, [], [null], [3, null]]
+            demandGoodArray(arg, true)
 
         for arg in [[1, 2], ['foo', 'bar', 55]]
-            demandNonEmptyArray(arg)
+            demandGoodArray(arg)
 
     it 'formats error messages with argument name', () ->
         msg = "Argument 'foobar' must be an object"
@@ -71,4 +71,3 @@ describe 'Validation', () ->
         msg = "Argument 'foobar' must #{beauty}"
         fn = () -> F.demandArray(null, 'foobar', beauty)
         fn.should.throw(msg)
-
