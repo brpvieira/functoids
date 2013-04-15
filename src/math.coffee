@@ -19,8 +19,7 @@ self = {
         else
             r = Math.round(n)
 
-        ret = if d then r / m else r
-        return ret.toFixed(decimalPlaces)
+        return if d then r / m else r
 }
 
 module.exports = self
