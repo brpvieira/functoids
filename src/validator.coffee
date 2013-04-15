@@ -17,6 +17,9 @@ validator = {
         return true if a?
         argumentError("not be null or undefined", argName, customMsg)
 
+    demandNonEmpty: (a, argName, customMsg) ->
+        return validator.isGoodArray(a) if _.isArray(a)
+
     demandArray: (a, argName, customMsg) ->
         return true if _.isArray(a)
         argumentError("be an array", argName, customMsg)
@@ -51,11 +54,11 @@ validator = {
 
     demandHash: (o, argName, customMsg) ->
         return true if validator.isHash(o)
-        argumentError("be a non-empty, non-array object (ie, a hash)")
+        argumentError("be a non-empty, non-array object (ie, a hash)", argName, customMsg)
 
     demandFunction: (f, argName, customMsg) ->
         return true if _.isFunction(f)
-        argumentError("be a function")
+        argumentError("be a function", argName, customMsg)
 
     demandString: (s, argName, customMsg) ->
         return true if _.isString(s)
