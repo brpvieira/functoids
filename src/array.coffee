@@ -1,5 +1,7 @@
 _ = require('underscore')
 
+F = require('./index')
+
 self = {
     isOnlyElement: (a, e) -> _.isArray(a) && a.length == 1 && a[0] == e
 
@@ -10,6 +12,24 @@ self = {
     popIfObject: (a) -> if _.isArray(a) && _.isObject(a[a.length - 1]) then a.pop() else null
 
     popIfNull: (a) -> a.pop() if _.isArray(a) && a[a.length - 1] == null
+
+    toDictionary: (a, key) ->
+        F.demandArray(a, a)
+        F.demandGoodString(key, "key")
+
+        o = {}
+        for e, i in a
+            v = e[key]
+
+            unless v?
+                F.throw("Element #{e} at position #{i} has nil '#{key}'")
+
+            if v of o
+                F.throw("Element #{e} at position #{i} has repeat value '#{v}' for '#{key}'")
+
+            o[v] = e
+
+        return o
 
     unwrapSingle: (a) -> if _.isArray(a) && a.length == 1 then a[0] else a
 
