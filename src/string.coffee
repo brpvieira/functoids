@@ -22,6 +22,9 @@ self = {
 
     toSingular: (s) -> i.inflect(s, false)
 
+    tryUpper: (s) -> if _.isString(s) then s.toUpperCase() else s
+    tryLower: (s) -> if _.isString(s) then s.toLowerCase() else s
+
     ###
      * @method spacify()
      * @short Converts camel case, underscores, and hyphens to a properly spaced string.
