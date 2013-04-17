@@ -8,7 +8,12 @@ Modifications Copyright(c) Gustavo Duarte
 ###
 
 _ = require('underscore')
+F = require('./index')
 delimiters = ["''", '""', '{}', '[]', '()']
+
+# this is from http://stackoverflow.com/questions/822452/strip-html-from-text-javascript
+# I haven't tested it much yet
+rgxStripHtml = /<(?:.|\n)*?>/gm
 
 self = {
     delimiters,
@@ -51,6 +56,10 @@ self = {
             if s.charAt(0) == d.charAt(0) && s.charAt(s.length-1) == d.charAt(1)
                 return s.slice(1, s.length-1)
         return s
+
+    stripHtml: (s) ->
+        F.demandGoodString(s, "s")
+        return s.replace(rgxStripHtml, '')
 
     toCamelCase: (s, first) ->
       return self.underscore(s).replace(/(^|_)([^_]+)/g, (match, pre, word, index) ->

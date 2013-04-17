@@ -1,5 +1,4 @@
 _ = require('underscore')
-
 F = require('./index')
 
 self = {
