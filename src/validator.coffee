@@ -76,6 +76,10 @@ validator = {
         return true if validator.isGoodNumber(n)
         argumentError("be a number", argName, customMsg)
 
+    demandBoolean: (b, argName, customMsg) ->
+        return true if _.isBoolean(b)
+        argumentError("be a boolean value", argName, customMsg)
+
     # See I've already waited too long
     # And all my hope is gone
     demandDate: (d, argName, customMsg) ->
