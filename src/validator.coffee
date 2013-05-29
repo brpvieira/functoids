@@ -84,7 +84,7 @@ validator = {
 
     isHash: (h) -> _.isObject(h) && !_.isEmpty(h) && !_.isArray(h)
 
-    isGoodObject: (a) -> _.isObject(a) && !_.isEmpty(a)
+    isGoodObject: (o) -> _.isObject(o) && !_.isEmpty(o)
 
     isGoodArray: (a) ->
         return false unless _.isArray(a) && !_.isEmpty(a)
