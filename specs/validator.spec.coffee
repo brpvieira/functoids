@@ -7,9 +7,9 @@ F = h.requireSrc()
 
 funcs = ["demandObject", "demandArray", "demandGoodArray", "demandString"]
 
-wrap = (name, msg) ->
+wrap = (name, msg, extra) ->
     (o, willThrow) ->
-        f = () -> F[name](o)
+        f = () -> F[name](o, extra)
         if willThrow
             f.should.throw(msg)
         else
@@ -22,6 +22,8 @@ demandGoodArray = wrap('demandGoodArray', 'Argument must be a non-empty array fr
 demandGoodObject = wrap('demandGoodObject', 'Argument must be a defined, non-empty object')
 demandNumber = wrap('demandNumber', 'Argument must be a number')
 demandString = wrap('demandString', 'Argument must be a string')
+demandKeys = wrap('demandKeys', "Argument must be a defined object 
+containing [name, dob] key(s)", ['name', 'dob'])
 
 describe 'Validator', () ->
     it 'demands not nil', () ->
@@ -44,6 +46,29 @@ describe 'Validator', () ->
 
         for arg in [{ foo: 'bar' }, ["it's hardcore real rap"]]
             demandGoodObject(arg)
+
+    it 'demands objects with given keys', () ->
+        bad = [
+            {}
+            { foo: null }
+            false
+            null
+        ]
+
+        for arg in bad
+            demandKeys(arg, true)
+
+
+        good = [
+            { name: "Ernest Rutherford" , dob: new Date(1871,7,30)}
+            { name: "Niels Bohr", dob: new Date(1885,9,7)}
+            { name: "Max Plank", dob: new Date(1858,3,23)}
+            { name: null, dob: false }
+        ]
+
+        for arg in good
+            demandKeys(arg)
+
 
     it 'demands arrays', () ->
         for arg in ['fooz', { sensei: 'benbarazan' }, 34]
