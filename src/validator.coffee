@@ -54,7 +54,8 @@ validator = {
 
     demandKeys: (o, keys, argName, customMsg) ->
         return true if validator.hasKeys(o, keys)
-        argumentError("be a defined object containing [#{keys.join(', ')}] key(s)")
+        expectedKeys = keys.join(", ")
+        argumentError("be a defined object containing [#{expectedKeys}] key(s)", argName, customMsg)
 
     demandHash: (o, argName, customMsg) ->
         return true if validator.isHash(o)
