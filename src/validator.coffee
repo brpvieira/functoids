@@ -52,8 +52,8 @@ validator = {
         return true if validator.isGoodObject(o)
         argumentError("be a defined, non-empty object", argName, customMsg)
 
-    demandObjectWithGivenKeys: (o, keys, argName, customMsg) ->
-        return true if validator.isObjectWithGivenKeys(o, keys)
+    demandKeys: (o, keys, argName, customMsg) ->
+        return true if validator.hasKeys(o, keys)
         argumentError("be a defined object containing [#{keys.join(', ')}] key(s)")
 
     demandHash: (o, argName, customMsg) ->
@@ -90,10 +90,10 @@ validator = {
 
     isGoodObject: (o) -> _.isObject(o) && !_.isEmpty(o)
 
-    isObjectWithGivenKeys: (o, keys) ->
+    hasKeys: (o, keys) ->
         validator.demandArrayOfGoodStrings(keys,"keys")
         return false unless validator.isGoodObject(o)
-        return _.every(keys, (k) -> !_.isUndefined(o[k]))
+        return _.every(keys, (k) -> k of o)
 
     isGoodArray: (a) ->
         return false unless _.isArray(a) && !_.isEmpty(a)

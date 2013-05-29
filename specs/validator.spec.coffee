@@ -22,7 +22,7 @@ demandGoodArray = wrap('demandGoodArray', 'Argument must be a non-empty array fr
 demandGoodObject = wrap('demandGoodObject', 'Argument must be a defined, non-empty object')
 demandNumber = wrap('demandNumber', 'Argument must be a number')
 demandString = wrap('demandString', 'Argument must be a string')
-demandObjectWithGivenKeys = wrap('demandObjectWithGivenKeys', "Argument must be a defined object 
+demandKeys = wrap('demandKeys', "Argument must be a defined object 
 containing [name, dob] key(s)", ['name', 'dob'])
 
 describe 'Validator', () ->
@@ -56,7 +56,7 @@ describe 'Validator', () ->
         ]
 
         for arg in bad
-            demandObjectWithGivenKeys(arg, true)
+            demandKeys(arg, true)
 
 
         good = [
@@ -67,7 +67,7 @@ describe 'Validator', () ->
         ]
 
         for arg in good
-            demandObjectWithGivenKeys(arg)
+            demandKeys(arg)
 
 
     it 'demands arrays', () ->
