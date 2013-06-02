@@ -52,6 +52,13 @@ validator = {
         return true if validator.isGoodObject(o)
         argumentError("be a defined, non-empty object", argName, customMsg)
 
+    demandType: (o, t, argName, customMsg) ->
+        return true if validator.isOfType(o, t)
+        className = "#{t}"
+        matches = /function (.{1,})\(/.exec(className)
+        className = matches[1] if matches && matches.length > 1 
+        argumentError("be an object of type '#{className}'", argName, customMsg)
+
     demandKeys: (o, keys, argName, customMsg) ->
         return true if validator.hasKeys(o, keys)
         expectedKeys = keys.join(", ")
@@ -132,6 +139,10 @@ validator = {
         for n in a
             return false unless validator.isGoodNumber(n)
         return true
+
+    isOfType: (o, t) ->
+        return false unless _.isObject(o)
+        return (o instanceof t)
 }
 
 validator.demandNonEmptyObject = validator.demandGoodObject
