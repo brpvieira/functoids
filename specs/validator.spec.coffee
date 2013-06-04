@@ -24,7 +24,6 @@ demandNumber = wrap('demandNumber', 'Argument must be a number')
 demandString = wrap('demandString', 'Argument must be a string')
 demandKeys = wrap('demandKeys', "Argument must be a defined object containing [name, dob] key(s)", ['name', 'dob'])
 demandType = wrap('demandType', "Argument must be an object of type 'Error'", Error)
-demandBoolean = wrap('demandType', "Argument must be an object of type 'Boolean'", Boolean)
 
 describe 'Validator', () ->
     it 'demands not nil', () ->
@@ -77,8 +76,18 @@ describe 'Validator', () ->
         bad = new Date()
         demandType(bad, true)
         
-        demandBoolean(true)
-        demandBoolean("Foo", true)
+        f = () -> @foo = 'foo'
+        foo = new f()
+        
+        F.demandType(foo, f).should.eql(true)
+
+        f2 = () -> @bar = 'bar'
+        bar = new f2()
+
+        test = () -> F.demandType(bar, f)
+        test.should.throw(/Argument must be an object of type 'function/)
+    
+        
 
     it 'demands arrays', () ->
         for arg in ['fooz', { sensei: 'benbarazan' }, 34]

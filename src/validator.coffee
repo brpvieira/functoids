@@ -54,7 +54,7 @@ validator = {
 
     demandType: (o, t, argName, customMsg) ->
         return true if validator.isOfType(o, t)
-        argumentError("be an object of type '#{t.name}'", argName, customMsg)
+        argumentError("be an object of type '#{t.name || t}'", argName, customMsg)
 
     demandKeys: (o, keys, argName, customMsg) ->
         return true if validator.hasKeys(o, keys)
@@ -139,13 +139,6 @@ validator = {
 
     isOfType: (o, t) ->
         validator.demandFunction(t, "t")
-        debugger
-        primitives =
-            "Boolean": _.isBoolean
-            "Number": _.isNumber
-            "String": _.isString
-        
-        return primitives[t.name](o) if primitives[t.name]?
         return (o instanceof t)
 }
 
