@@ -22,8 +22,8 @@ demandGoodArray = wrap('demandGoodArray', 'Argument must be a non-empty array fr
 demandGoodObject = wrap('demandGoodObject', 'Argument must be a defined, non-empty object')
 demandNumber = wrap('demandNumber', 'Argument must be a number')
 demandString = wrap('demandString', 'Argument must be a string')
-demandKeys = wrap('demandKeys', "Argument must be a defined object 
-containing [name, dob] key(s)", ['name', 'dob'])
+demandKeys = wrap('demandKeys', "Argument must be a defined object containing [name, dob] key(s)", ['name', 'dob'])
+demandType = wrap('demandType', "Argument must be an object of type 'Error'", Error)
 
 describe 'Validator', () ->
     it 'demands not nil', () ->
@@ -69,6 +69,25 @@ describe 'Validator', () ->
         for arg in good
             demandKeys(arg)
 
+    it 'demands an object of type', () ->
+        err = new Error("foo")
+        demandType(err)
+        
+        bad = new Date()
+        demandType(bad, true)
+        
+        f = () -> @foo = 'foo'
+        foo = new f()
+        
+        F.demandType(foo, f).should.eql(true)
+
+        f2 = () -> @bar = 'bar'
+        bar = new f2()
+
+        test = () -> F.demandType(bar, f)
+        test.should.throw(/Argument must be an object of type 'function/)
+    
+        
 
     it 'demands arrays', () ->
         for arg in ['fooz', { sensei: 'benbarazan' }, 34]
