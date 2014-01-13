@@ -26,7 +26,7 @@ logger = {
 
     logInfo: (info, context) -> 
         params = [
-            if (info instanceof String) then info else util.inspect(info)
+            if _.isString(info) then info else util.inspect(info)
         ]
         
         if context
@@ -42,7 +42,7 @@ logger = {
             message = error.message
             stack = error.stack
         else
-            message = if (error instanceof String) \ 
+            message = if _.isString(error) \ 
                 then error else util.inspect(error)
             stack = (new Error()).stack
 
