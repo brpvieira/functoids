@@ -9,6 +9,9 @@ formatMessage = (messages...) ->
     message = timestamp() + messages.join('\n')
     return message
 
+getLogString = (message) ->
+    return if _.isString(message) then message else util.inspect(message)
+
 LABEL_INFO = "\x1b[36m[info]\x1b[0m"
 LABEL_ERROR = "\x1b[31m[error]\x1b[0m"
 
@@ -20,6 +23,7 @@ logger = {
         )
 
     logAll: (message) ->
+        message =  getLogString(message)
         message = LABEL_INFO+formatMessage.call(null, message)
 
         process.stdout.write("#{message}\n")
@@ -28,7 +32,7 @@ logger = {
 
     logInfo: (info, context) -> 
         params = [
-            if _.isString(info) then info else util.inspect(info)
+            getLogString(info)
         ]
         
         if context
@@ -46,8 +50,7 @@ logger = {
             message = error.message
             stack = error.stack
         else
-            message = if _.isString(error) \ 
-                then error else util.inspect(error)
+            message = getLogString(error)
             stack = (new Error()).stack
 
         params = [message, stack]

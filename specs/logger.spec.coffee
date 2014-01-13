@@ -34,4 +34,8 @@ describe('Logger', () ->
         F.logInfo("initialization", sample)
     )
 
+    it('should log all', () ->
+        F.logAll('sample')
+    )
+
 )
