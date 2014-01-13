@@ -5,7 +5,7 @@ timestamp = () ->
     t = (new Date()).toUTCString()
     return "[#{t}] - "
 
-getLogString = (message) ->
+ensureString = (message) ->
     return if _.isString(message) then message else util.inspect(message)
 
 isTTYout = Boolean(process.stdout.isTTY)
@@ -17,7 +17,7 @@ LABEL_ERROR = if (isTTYerr) then "\x1b[31m[error]\x1b[0m" else ''
 logger = {
 
     logAll: (message) ->
-        message =  getLogString(message)
+        message =  ensureString(message)
         message = LABEL_INFO + timestamp() + message
 
         process.stdout.write("#{message}\n")
@@ -26,7 +26,7 @@ logger = {
 
     logInfo: (info, context) ->
         params = [
-            LABEL_INFO + timestamp() + getLogString(info)
+            LABEL_INFO + timestamp() + ensureString(info)
         ]
         
         if context?
@@ -45,7 +45,7 @@ logger = {
             message += error.message
             stack = error.stack
         else
-            message += getLogString(error)
+            message += ensureString(error)
             stack = (new Error()).stack
 
         params = [message, stack]
