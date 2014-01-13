@@ -1,11 +1,11 @@
 util = require('util')
 _ = require('underscore')
 
-timestamp = () -> 
+timestamp = () ->
     t = (new Date()).toUTCString()
     return "[#{t}] - "
 
-formatMessage = (messages...) -> 
+formatMessage = (messages...) ->
     message = timestamp() + messages.join('\n')
     return message
 
@@ -24,13 +24,13 @@ logger = {
 
     logAll: (message) ->
         message =  getLogString(message)
-        message = LABEL_INFO+formatMessage.call(null, message)
+        message = LABEL_INFO + formatMessage.call(null, message)
 
         process.stdout.write("#{message}\n")
         process.stderr.write("#{message}\n")
 
 
-    logInfo: (info, context) -> 
+    logInfo: (info, context) ->
         params = [
             getLogString(info)
         ]
@@ -38,7 +38,7 @@ logger = {
         if context
             params.push(util.inspect(context))
 
-        message = LABEL_INFO+formatMessage.apply(null, params)
+        message = LABEL_INFO + formatMessage.apply(null, params)
 
         process.stdout.write("#{message}\n")
 
@@ -55,10 +55,10 @@ logger = {
 
         params = [message, stack]
 
-        if context
+        if context?
             params.push(util.inspect(context))
 
-        message = LABEL_ERROR+formatMessage.apply(null, params)
+        message = LABEL_ERROR + formatMessage.apply(null, params)
 
         process.stderr.write("#{message}\n")
 
