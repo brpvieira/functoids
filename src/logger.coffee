@@ -16,12 +16,7 @@ LABEL_INFO = "\x1b[36m[info]\x1b[0m"
 LABEL_ERROR = "\x1b[31m[error]\x1b[0m"
 
 logger = {
-    logInit: () ->
-        process.on('uncaughtException', (err) =>
-            @logError(err)
-            process.exit(1)
-        )
-
+    
     logAll: (message) ->
         message =  getLogString(message)
         message = LABEL_INFO + formatMessage.call(null, message)
