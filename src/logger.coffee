@@ -6,19 +6,22 @@ timestamp = () ->
     return "[#{t}] - "
 
 formatMessage = (messages...) -> 
-    message = timestamp()
-    _.each(messages, (m) -> message += "#{m}\n" )
+    message = timestamp() + messages.join('\n')
     return message
 
 LABEL_INFO = "\x1b[36m[info]\x1b[0m"
 LABEL_ERROR = "\x1b[31m[error]\x1b[0m"
 
 logger = {
-    init: () ->
-        process.on('uncaughtException', () ->
+    logInit: () ->
+        process.on('uncaughtException', (err) =>
             @logError(err)
             process.exit(1)
         )
+
+    logAll: (message) ->
+        console.log(LABEL_INFO+formatMessage.call(null, message))
+        console.error(LABEL_INFO+formatMessage.call(null, message))
 
     logInfo: (info, context) -> 
         params = [
