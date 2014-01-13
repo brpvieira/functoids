@@ -5,21 +5,20 @@ timestamp = () ->
     t = (new Date()).toUTCString()
     return "[#{t}] - "
 
-formatMessage = (messages...) ->
-    message = timestamp() + messages.join('\n')
-    return message
-
 getLogString = (message) ->
     return if _.isString(message) then message else util.inspect(message)
 
-LABEL_INFO = "\x1b[36m[info]\x1b[0m"
-LABEL_ERROR = "\x1b[31m[error]\x1b[0m"
+isTTYout = Boolean(process.stdout.isTTY)
+isTTYerr = Boolean(process.stderr.isTTY)
+
+LABEL_INFO = if (isTTYout) then "\x1b[36m[info]\x1b[0m" else ''
+LABEL_ERROR = if (isTTYerr) then "\x1b[31m[error]\x1b[0m" else ''
 
 logger = {
-    
+
     logAll: (message) ->
         message =  getLogString(message)
-        message = LABEL_INFO + formatMessage.call(null, message)
+        message = LABEL_INFO + timestamp() + message
 
         process.stdout.write("#{message}\n")
         process.stderr.write("#{message}\n")
@@ -27,25 +26,26 @@ logger = {
 
     logInfo: (info, context) ->
         params = [
-            getLogString(info)
+            LABEL_INFO + timestamp() + getLogString(info)
         ]
         
-        if context
+        if context?
             params.push(util.inspect(context))
 
-        message = LABEL_INFO + formatMessage.apply(null, params)
+        params.push('')
 
-        process.stdout.write("#{message}\n")
+        process.stdout.write(params.join('\n'))
 
 
     logError: (error, context) ->
         params = []
 
+        message = LABEL_ERROR + timestamp()
         if (error instanceof Error)
-            message = error.message
+            message += error.message
             stack = error.stack
         else
-            message = getLogString(error)
+            message += getLogString(error)
             stack = (new Error()).stack
 
         params = [message, stack]
@@ -53,9 +53,9 @@ logger = {
         if context?
             params.push(util.inspect(context))
 
-        message = LABEL_ERROR + formatMessage.apply(null, params)
+        params.push('')
 
-        process.stderr.write("#{message}\n")
+        process.stderr.write(params.join('\n'))
 
 }
 
