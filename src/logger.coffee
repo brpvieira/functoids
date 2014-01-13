@@ -14,15 +14,17 @@ LABEL_ERROR = "\x1b[31m[error]\x1b[0m"
 
 logger = {
     logInit: () ->
-        if process?
-            process.on('uncaughtException', (err) =>
-                @logError(err)
-                process.exit(1)
-            )
+        process.on('uncaughtException', (err) =>
+            @logError(err)
+            process.exit(1)
+        )
 
     logAll: (message) ->
-        console.log(LABEL_INFO+formatMessage.call(null, message))
-        console.error(LABEL_INFO+formatMessage.call(null, message))
+        message = LABEL_INFO+formatMessage.call(null, message)
+
+        process.stdout.write("#{message}\n")
+        process.stderr.write("#{message}\n")
+
 
     logInfo: (info, context) -> 
         params = [
@@ -32,7 +34,9 @@ logger = {
         if context
             params.push(util.inspect(context))
 
-        console.log(LABEL_INFO+formatMessage.apply(null, params))
+        message = LABEL_INFO+formatMessage.apply(null, params)
+
+        process.stdout.write("#{message}\n")
 
 
     logError: (error, context) ->
@@ -51,7 +55,9 @@ logger = {
         if context
             params.push(util.inspect(context))
 
-        console.error(LABEL_ERROR+formatMessage.apply(null, params))
+        message = LABEL_ERROR+formatMessage.apply(null, params)
+
+        process.stderr.write("#{message}\n")
 
 }
 
