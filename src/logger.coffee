@@ -14,10 +14,11 @@ LABEL_ERROR = "\x1b[31m[error]\x1b[0m"
 
 logger = {
     logInit: () ->
-        process.on('uncaughtException', (err) =>
-            @logError(err)
-            process.exit(1)
-        )
+        if process?
+            process.on('uncaughtException', (err) =>
+                @logError(err)
+                process.exit(1)
+            )
 
     logAll: (message) ->
         console.log(LABEL_INFO+formatMessage.call(null, message))
