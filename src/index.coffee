@@ -1,5 +1,9 @@
 _ = require('underscore')
-_.extend(exports, require('./validator'))
+_.extend(
+    exports, 
+    require('./validator'), 
+    require('./logger')
+)
 
 core = require('./core')
 math = require('./math')
